@@ -1,48 +1,58 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Query;
 
-public interface IAsyncRepository<T> where T : Entity
+public interface IAsyncRepository<TEntity, TId> where TEntity : Entity<TId>
 {
     // Get Methods
-    Task<T?> GetAsync(Expression<Func<T, bool>> predicate, 
-        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+    Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, 
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+        bool withDeleted = false,
         bool enableTracking = true,
         CancellationToken cancellationToken = default);
 
     // Get List Methods
-    Task<List<T>> GetListAsync(Expression<Func<T, bool>>? predicate = null,
-        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+    Task<Paginate<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+        int index = 0,
+        int size = 10,
+        bool withDeleted = false,
         bool enableTracking = true,
         CancellationToken cancellationToken = default);
 
     // Get Paged List
-    Task<(List<T> Items, int Total)> GetPagedListAsync(
-        Expression<Func<T, bool>>? predicate = null,
-        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+    Task<Paginate<TEntity>> GetPagedListAsync(
+        Expression<Func<TEntity, bool>>? predicate = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         int pageIndex = 0,
         int pageSize = 10,
+        bool withDeleted = false,
         bool enableTracking = true,
         CancellationToken cancellationToken = default);
 
     // Add Methods
-    Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
-    Task<List<T>> AddRangeAsync(List<T> entities, CancellationToken cancellationToken = default);
+    Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entities, CancellationToken cancellationToken = default);
 
     // Update Methods
-    Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default);
-    Task<List<T>> UpdateRangeAsync(List<T> entities, CancellationToken cancellationToken = default);
+    Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entities, CancellationToken cancellationToken = default);
 
     // Delete Methods
-    Task<T> DeleteAsync(T entity, CancellationToken cancellationToken = default);
-    Task<List<T>> DeleteRangeAsync(List<T> entities, CancellationToken cancellationToken = default);
+    Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false, CancellationToken cancellationToken = default);
+    Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool permanent = false, CancellationToken cancellationToken = default);
+
 
     // Any Method
-    Task<bool> AnyAsync(Expression<Func<T, bool>>? predicate = null, 
+    Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? predicate = null, 
+        bool withDeleted = false,
+        bool enableTracking = true,
         CancellationToken cancellationToken = default);
 
     // Count Method
-    Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null, 
+    Task<int> CountAsync(Expression<Func<TEntity, bool>>? predicate = null, 
+        bool withDeleted = false,
+        bool enableTracking = true,
         CancellationToken cancellationToken = default);
 } 

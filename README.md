@@ -1,38 +1,95 @@
-# Banking Credit System
+# Bankacılık Kredi Sistemi
 
-A banking credit system built with .NET Core 9 using Clean Architecture and CQRS pattern.
+.NET Core 9 ile Clean Architecture ve CQRS pattern kullanılarak geliştirilmiş bir bankacılık kredi sistemi.
 
-## Project Structure
+## Proje Yapısı
 
-- **BankingCreditSystem.Core**: Contains core business logic, interfaces, and base classes
-- **BankingCreditSystem.Domain**: Contains business entities and domain logic
-- **BankingCreditSystem.Application**: Contains application use cases and CQRS implementations
-- **BankingCreditSystem.Persistence**: Contains database context and repositories
-- **BankingCreditSystem.WebAPI**: Contains API controllers and configurations
+- **BankingCreditSystem.Core**: 
+  - Core katmanı, tüm projenin temel yapı taşlarını içerir
+  - Generic Repository Pattern implementasyonu
+  - Paging yapısı
+  - Entity base sınıfları
+  - Dinamik query yapısı
 
-## Technologies
+- **BankingCreditSystem.Domain**: 
+  - Domain nesneleri (Customer, IndividualCustomer, CorporateCustomer)
+  - Domain için özel exception'lar
+  - Enum'lar ve sabitler
+
+- **BankingCreditSystem.Application**: 
+  - CQRS (Command Query Responsibility Segregation) implementasyonu
+  - MediatR kullanılarak command/query handler'lar
+  - AutoMapper ile DTO dönüşümleri
+  - Validation kuralları (FluentValidation)
+  - Business Rules
+
+- **BankingCreditSystem.Persistence**: 
+  - Entity Framework Core implementasyonu
+  - Repository implementasyonları
+  - DbContext ve konfigürasyonlar
+  - Migration'lar
+
+- **BankingCreditSystem.WebAPI**: 
+  - REST API endpoints
+  - Swagger/OpenAPI dokümantasyonu
+  - JWT Authentication
+  - API versiyonlama
+
+## Kullanılan Teknolojiler
 
 - .NET Core 9
-- Entity Framework Core
+- Entity Framework Core 9
+- MediatR (CQRS implementasyonu için)
+- AutoMapper (DTO dönüşümleri için)
+- FluentValidation (Validasyon kuralları için)
+- Swagger/OpenAPI (API dokümantasyonu)
+- SQL Server (Veritabanı)
+
+## Mimari Özellikler
+
 - Clean Architecture
+  - Bağımlılıklar içten dışa doğru
+  - Katmanlar arası sıkı bağımlılık kontrolü
+  - Domain-Driven Design prensipleri
+
 - CQRS Pattern
-- Async Repository Pattern
+  - Command ve Query sorumluluklarının ayrılması
+  - Her işlem için özel DTO'lar
+  - MediatR ile handler implementasyonu
 
-## Features
+- Repository Pattern
+  - Generic async repository
+  - Specification pattern desteği
+  - Include mekanizması
+  - Soft delete implementasyonu
 
-- Generic Async Repository
-- Individual and Corporate Customer Management
-- Soft Delete Implementation
-- Pagination Support
-- CRUD Operations
+- Cross-Cutting Concerns
+  - Global exception handling
+  - Loglama
+  - Caching
+  - Transaction yönetimi
 
-## Getting Started
+## Temel Özellikler
 
-1. Clone the repository
-2. Ensure you have .NET Core 9 SDK installed
-3. Build the solution
-4. Run the WebAPI project
+- Bireysel ve Kurumsal Müşteri Yönetimi
+- Kredi Skoru Hesaplama
+- Soft Delete İmplementasyonu
+- Sayfalama Desteği
+- CRUD Operasyonları
+- Validation ve Business Rules
+- Exception Handling
 
-## License
+## Kurulum
 
-This project is licensed under the MIT License - see the LICENSE file for details 
+1. Projeyi klonlayın
+2. .NET Core 9 SDK'yı yükleyin
+3. SQL Server bağlantı ayarlarını yapılandırın
+4. Migration'ları çalıştırın: `dotnet ef database update`
+5. WebAPI projesini çalıştırın: `dotnet run`
+
+## Geliştirme Ortamı
+
+- Visual Studio 2022
+- SQL Server Management Studio
+- Postman (API testleri için)
+
