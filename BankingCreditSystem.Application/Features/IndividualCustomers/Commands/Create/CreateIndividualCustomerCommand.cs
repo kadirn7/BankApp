@@ -26,11 +26,11 @@ namespace BankingCreditSystem.Application.Features.IndividualCustomers.Commands.
             _businessRules = businessRules;
         }
 
-        public async Task<CreatedIndividualCustomerResponse> Handle(CreateIndividualCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedIndividualCustomerResponse> Handle(CreateIndividualCustomerCommand command, CancellationToken cancellationToken)
         {
-            await _businessRules.NationalIdCannotBeDuplicated(request.Request.NationalId);
+            await _businessRules.NationalIdCannotBeDuplicated(command.Request.NationalId);
 
-            var individualCustomer = _mapper.Map<IndividualCustomer>(request.Request);
+            var individualCustomer = _mapper.Map<IndividualCustomer>(command.Request);
             var createdCustomer = await _individualCustomerRepository.AddAsync(individualCustomer);
             
             return _mapper.Map<CreatedIndividualCustomerResponse>(createdCustomer);

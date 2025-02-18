@@ -25,13 +25,13 @@ namespace BankingCreditSystem.Application.Features.IndividualCustomers.Commands.
             _businessRules = businessRules;
         }
 
-        public async Task<UpdatedIndividualCustomerResponse> Handle(UpdateIndividualCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedIndividualCustomerResponse> Handle(UpdateIndividualCustomerCommand command, CancellationToken cancellationToken)
         {
-            await _businessRules.CustomerShouldExist(request.Request.Id);
+            await _businessRules.CustomerShouldExist(command.Request.Id);
 
-            var existingCustomer = await _individualCustomerRepository.GetAsync(c => c.Id == request.Request.Id);
+            var existingCustomer = await _individualCustomerRepository.GetAsync(c => c.Id == command.Request.Id);
             
-            _mapper.Map(request.Request, existingCustomer);
+            _mapper.Map(command.Request, existingCustomer);
             var updatedCustomer = await _individualCustomerRepository.UpdateAsync(existingCustomer!);
             
             return _mapper.Map<UpdatedIndividualCustomerResponse>(updatedCustomer);

@@ -25,11 +25,11 @@ namespace BankingCreditSystem.Application.Features.IndividualCustomers.Commands.
             _businessRules = businessRules;
         }
 
-        public async Task<DeletedIndividualCustomerResponse> Handle(DeleteIndividualCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<DeletedIndividualCustomerResponse> Handle(DeleteIndividualCustomerCommand command, CancellationToken cancellationToken)
         {
-            await _businessRules.CustomerShouldExist(request.Id);
+            await _businessRules.CustomerShouldExist(command.Id);
 
-            var customerToDelete = await _individualCustomerRepository.GetAsync(c => c.Id == request.Id);
+            var customerToDelete = await _individualCustomerRepository.GetAsync(c => c.Id == command.Id);
             var deletedCustomer = await _individualCustomerRepository.DeleteAsync(customerToDelete!);
             
             return _mapper.Map<DeletedIndividualCustomerResponse>(deletedCustomer);
