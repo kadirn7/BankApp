@@ -22,7 +22,7 @@ public class HttpExceptionHandler : ExceptionHandler
         Response.ContentType = "application/json";
         Response.StatusCode = StatusCodes.Status400BadRequest;
         return WriteAsJsonAsync(Response, details);
-    }
+    } 
 
     protected override Task HandleException(ValidationException validationException)
     {
