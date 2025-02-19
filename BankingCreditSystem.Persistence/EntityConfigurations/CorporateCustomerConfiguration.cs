@@ -8,11 +8,9 @@ namespace BankingCreditSystem.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<CorporateCustomer> builder)
         {
             builder.ToTable("CorporateCustomers");
-
-            builder.HasKey(c => c.Id);
             
             builder.Property(c => c.CompanyName)
-                .HasMaxLength(250)
+                .HasMaxLength(150)
                 .IsRequired();
                 
             builder.Property(c => c.TaxNumber)
@@ -43,7 +41,6 @@ namespace BankingCreditSystem.Persistence.EntityConfigurations
 
             builder.HasIndex(c => c.TaxNumber)
                 .IsUnique();
-            builder.UseTptMappingStrategy();
         }
     }
 } 

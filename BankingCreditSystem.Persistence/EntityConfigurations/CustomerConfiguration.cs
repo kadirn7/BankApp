@@ -22,8 +22,8 @@ namespace BankingCreditSystem.Persistence.EntityConfigurations
             builder.Property(c => c.Address)
                 .HasMaxLength(500)
                 .IsRequired();
-                
-            
+
+            // TPT için discriminator sütununu kaldırıyoruz
             builder.UseTptMappingStrategy();
         }
     }
