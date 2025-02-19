@@ -1,6 +1,3 @@
-
-
-
 namespace BankingCreditSystem.Application.Features.CorporateCustomers.Rules
 {
     public class CorporateCustomerBusinessRules
@@ -12,16 +9,18 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Rules
             _corporateCustomerRepository = corporateCustomerRepository;
         }
 
+        public async Task TaxNumberCannotBeDuplicated(string taxNumber)
+        {
+            var customer = await _corporateCustomerRepository.GetAsync(c => c.TaxNumber == taxNumber);
+            if (customer != null)
+                throw new BusinessException(CorporateCustomerMessages.TaxNumberAlreadyExists);
+        }
+
         public async Task CustomerShouldExist(Guid id)
         {
             var customer = await _corporateCustomerRepository.GetAsync(c => c.Id == id);
-           // if (customer == null) throw new BusinessException(CorporateCustomerMessages.CustomerNotFound);
-        }
-
-        public async Task TaxNumberCannotBeDuplicated(string taxNumber)
-        {
-            var result = await _corporateCustomerRepository.AnyAsync(c => c.TaxNumber == taxNumber);
-           // if (result) throw new BusinessException(CorporateCustomerMessages.TaxNumberAlreadyExists);
+            if (customer == null)
+                throw new BusinessException(CorporateCustomerMessages.CustomerNotFound);
         }
     }
 } 

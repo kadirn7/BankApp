@@ -7,7 +7,7 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Commands.D
 {
     public class DeleteCorporateCustomerCommand : IRequest<DeletedCorporateCustomerResponse>
     {
-        public DeleteCorporateCustomerRequest Request { get; set; } = null!;
+        public Guid Id { get; set; }
     }
 
     public class DeleteCorporateCustomerCommandHandler : IRequestHandler<DeleteCorporateCustomerCommand, DeletedCorporateCustomerResponse>
@@ -26,14 +26,16 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Commands.D
             _businessRules = businessRules;
         }
 
-        public async Task<DeletedCorporateCustomerResponse> Handle(DeleteCorporateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<DeletedCorporateCustomerResponse> Handle(DeleteCorporateCustomerCommand command, CancellationToken cancellationToken)
         {
-            await _businessRules.CustomerShouldExist(request.Request.Id);
+            await _businessRules.CustomerShouldExist(command.Id);
 
-            var customerToDelete = await _corporateCustomerRepository.GetAsync(c => c.Id == request.Request.Id);
+            var customerToDelete = await _corporateCustomerRepository.GetAsync(c => c.Id == command.Id);
             var deletedCustomer = await _corporateCustomerRepository.DeleteAsync(customerToDelete!);
             
-            return _mapper.Map<DeletedCorporateCustomerResponse>(deletedCustomer);
+            var response = _mapper.Map<DeletedCorporateCustomerResponse>(deletedCustomer);
+            response.Message = CorporateCustomerMessages.CustomerDeleted;
+            return response;
         }
     }
 } 

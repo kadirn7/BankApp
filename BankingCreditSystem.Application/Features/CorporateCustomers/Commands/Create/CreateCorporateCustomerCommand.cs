@@ -25,14 +25,16 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Commands.C
             _businessRules = businessRules;
         }
 
-        public async Task<CreatedCorporateCustomerResponse> Handle(CreateCorporateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedCorporateCustomerResponse> Handle(CreateCorporateCustomerCommand command, CancellationToken cancellationToken)
         {
-            await _businessRules.TaxNumberCannotBeDuplicated(request.Request.TaxNumber);
+            await _businessRules.TaxNumberCannotBeDuplicated(command.Request.TaxNumber);
 
-            var corporateCustomer = _mapper.Map<CorporateCustomer>(request.Request);
+            var corporateCustomer = _mapper.Map<CorporateCustomer>(command.Request);
             var createdCustomer = await _corporateCustomerRepository.AddAsync(corporateCustomer);
             
-            return _mapper.Map<CreatedCorporateCustomerResponse>(createdCustomer);
+            var response = _mapper.Map<CreatedCorporateCustomerResponse>(createdCustomer);
+            response.Message = CorporateCustomerMessages.CustomerCreated;
+            return response;
         }
     }
 } 

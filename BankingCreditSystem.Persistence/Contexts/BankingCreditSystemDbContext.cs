@@ -13,7 +13,18 @@ public class BankingCreditSystemDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        // TPT Configuration
+        modelBuilder.Entity<Customer>()
+            .UseTptMappingStrategy();
+
+        modelBuilder.Entity<Customer>()
+            .ToTable("Customers");
+
+        modelBuilder.Entity<IndividualCustomer>()
+            .ToTable("IndividualCustomers");
+
+        modelBuilder.Entity<CorporateCustomer>()
+            .ToTable("CorporateCustomers");
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

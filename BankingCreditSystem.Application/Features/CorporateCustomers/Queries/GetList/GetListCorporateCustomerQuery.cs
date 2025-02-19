@@ -31,8 +31,7 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Queries.Ge
                 cancellationToken: cancellationToken
             );
 
-            var response = _mapper.Map<GetListCorporateCustomerResponse>(customers);
-            return response;
+            return _mapper.Map<GetListCorporateCustomerResponse>(customers);
         }
     }
 } 

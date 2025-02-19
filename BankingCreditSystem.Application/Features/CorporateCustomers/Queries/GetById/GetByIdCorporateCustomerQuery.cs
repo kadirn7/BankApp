@@ -6,7 +6,7 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Queries.Ge
 {
     public class GetByIdCorporateCustomerQuery : IRequest<GetCorporateCustomerResponse>
     {
-        public GetByIdCorporateCustomerRequest Request { get; set; } = null!;
+        public Guid Id { get; set; }
     }
 
     public class GetByIdCorporateCustomerQueryHandler : IRequestHandler<GetByIdCorporateCustomerQuery, GetCorporateCustomerResponse>
@@ -27,9 +27,9 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Queries.Ge
 
         public async Task<GetCorporateCustomerResponse> Handle(GetByIdCorporateCustomerQuery request, CancellationToken cancellationToken)
         {
-            await _businessRules.CustomerShouldExist(request.Request.Id);
+            await _businessRules.CustomerShouldExist(request.Id);
 
-            var customer = await _corporateCustomerRepository.GetAsync(c => c.Id == request.Request.Id);
+            var customer = await _corporateCustomerRepository.GetAsync(c => c.Id == request.Id);
             return _mapper.Map<GetCorporateCustomerResponse>(customer);
         }
     }

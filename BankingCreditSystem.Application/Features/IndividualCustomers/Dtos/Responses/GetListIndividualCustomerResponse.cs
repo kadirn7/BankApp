@@ -1,7 +1,7 @@
 public class GetListIndividualCustomerResponse 
 {
     public IList<GetIndividualCustomerListItemDto> Items { get; set; } = null!;
-}
+} 
 
 public class GetIndividualCustomerListItemDto
 {
@@ -11,4 +11,5 @@ public class GetIndividualCustomerListItemDto
     public string Email { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
     public int CreditScore { get; set; }
+    public string Message { get; set; } = null!;
 } 

@@ -2,6 +2,10 @@ using AutoMapper;
 using BankingCreditSystem.Application.Features.CorporateCustomers.Commands.Create;
 using BankingCreditSystem.Application.Features.CorporateCustomers.Commands.Update;
 using BankingCreditSystem.Application.Features.CorporateCustomers.Commands.Delete;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Queries.GetById;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Queries.GetList;
+using BankingCreditSystem.Application.Features.CorporateCustomers.Rules;
+
 
 namespace BankingCreditSystem.Application.Features.CorporateCustomers.Profiles
 {
@@ -17,6 +21,7 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Profiles
             CreateMap<UpdateCorporateCustomerRequest, CorporateCustomer>()
                 .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
                 .ForMember(dest => dest.DeletedDate, opt => opt.Ignore());
+            
             CreateMap<CorporateCustomer, UpdatedCorporateCustomerResponse>();
 
             // Delete mapping

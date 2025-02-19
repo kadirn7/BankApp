@@ -25,16 +25,18 @@ namespace BankingCreditSystem.Application.Features.CorporateCustomers.Commands.U
             _businessRules = businessRules;
         }
 
-        public async Task<UpdatedCorporateCustomerResponse> Handle(UpdateCorporateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedCorporateCustomerResponse> Handle(UpdateCorporateCustomerCommand command, CancellationToken cancellationToken)
         {
-            await _businessRules.CustomerShouldExist(request.Request.Id);
+            await _businessRules.CustomerShouldExist(command.Request.Id);
 
-            var existingCustomer = await _corporateCustomerRepository.GetAsync(c => c.Id == request.Request.Id);
+            var existingCustomer = await _corporateCustomerRepository.GetAsync(c => c.Id == command.Request.Id);
+            _mapper.Map(command.Request, existingCustomer);
             
-            _mapper.Map(request.Request, existingCustomer);
             var updatedCustomer = await _corporateCustomerRepository.UpdateAsync(existingCustomer!);
             
-            return _mapper.Map<UpdatedCorporateCustomerResponse>(updatedCustomer);
+            var response = _mapper.Map<UpdatedCorporateCustomerResponse>(updatedCustomer);
+            response.Message = CorporateCustomerMessages.CustomerUpdated;
+            return response;
         }
     }
 } 

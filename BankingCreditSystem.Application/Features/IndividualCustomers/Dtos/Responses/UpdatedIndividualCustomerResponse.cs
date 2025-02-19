@@ -8,4 +8,5 @@ public class UpdatedIndividualCustomerResponse
     public string Address { get; set; } = null!;
     public DateTime UpdatedDate { get; set; }
     public string Message { get; set; } = null!;
+    
 } 

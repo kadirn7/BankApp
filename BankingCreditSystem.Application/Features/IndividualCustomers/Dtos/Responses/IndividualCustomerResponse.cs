@@ -11,4 +11,5 @@ public class IndividualCustomerResponse
     public string Occupation { get; set; } = null!;
     public decimal MonthlyIncome { get; set; }
     public int CreditScore { get; set; }
+    public string Message { get; set; } = null!;
 } 
